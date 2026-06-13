@@ -1,0 +1,336 @@
+/* body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 15px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+  color: gray;
+  margin-bottom: 20px;
+}
+
+.buttons button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.vehicle-info {
+  background: #f1f3f5;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+button:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+.call {
+  background: #007bff;
+  color: white;
+}
+
+.whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+.order-section {
+  margin-top: 15px;
+}
+
+.order {
+  background: black;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+} */
+
+
+
+
+/* 🌈 Background */
+/* .main-bg {
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+/* Centering */
+/* .container {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+ */
+/* ✨ Glass Card */
+/* .card {
+  width: 100%;
+  max-width: 360px;
+  padding: 25px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+
+  text-align: center;
+  color: white;
+} */
+
+/* Vehicle Info */
+/* .vehicle-info {
+  background: rgba(85, 76, 76, 0.2);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  color: black;
+}
+.card {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+} */
+/* Buttons container */
+/* .buttons button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+
+  transition: all 0.3s ease;
+} */
+
+/* 📞 Call Button */
+/* .call {
+  background: #4facfe;
+  color: white;
+} */
+
+/* 💬 WhatsApp */
+/* .whatsapp {
+  background: #25D366;
+  color: white;
+} */
+
+/* 🛒 Order */
+/* .order {
+  background: #000;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+} */
+
+/* ✨ Hover Effects */
+/* button:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+} */
+
+/* Click effect */
+/* button:active {
+  transform: scale(0.97);
+} */
+
+/* Divider */
+/* hr {
+  margin: 15px 0;
+  border: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.3);
+} */
+
+/* .order-form {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+} */
+
+/* .order-form input,
+.order-form textarea {
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+} */
+
+/* .order-form button {
+  margin-top: 10px;
+  background: orange;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+} */
+
+/* 🌈 Background */
+.main-bg {
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Glass Card */
+.card {
+  width: 100%;
+  max-width: 360px;
+  padding: 25px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+
+  text-align: center;
+  color: white;
+
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.subtitle {
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+
+/* Vehicle Info */
+.vehicle-info {
+  background: rgba(255,255,255,0.2);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+/* Buttons */
+.buttons button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.call {
+  background: #4facfe;
+  color: white;
+}
+
+.whatsapp {
+  background: #25D366;
+  color: white;
+}
+
+/* Order */
+.order {
+  background: black;
+  color: white;
+  padding: 10px;
+  border-radius: 12px;
+  width: 100%;
+}
+
+/* Order Form */
+.order-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-form input,
+.order-form textarea {
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.order-form button {
+  margin-top: 10px;
+  background: orange;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Effects */
+button:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+hr {
+  margin: 15px 0;
+  border: 0;
+  height: 1px;
+  background: rgba(255,255,255,0.3);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

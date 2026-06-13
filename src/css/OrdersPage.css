@@ -1,0 +1,54 @@
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.orders-table th {
+  background: #333;
+  color: white;
+}
+
+.orders-table tr:hover {
+  background: #f1f1f1;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 8px;
+  color: white;
+  font-size: 12px;
+}
+
+.PENDING {
+  background: red;
+}
+
+.PROCESSING {
+  background: yellow;
+  color: black;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.DELIVERED {
+  background: green;
+}
+button {
+  background: green;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.gqr{
+  background-color: green;
+}

@@ -1,0 +1,132 @@
+/* Background */
+.admin-bg {
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container */
+.admin-container {
+  width: 100%;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Card */
+.admin-card {
+  width: 100%;
+  max-width: 350px;
+  padding: 25px;
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+  text-align: center;
+  color: white;
+
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.subtitle {
+  opacity: 0.8;
+  margin-bottom: 15px;
+}
+
+/* Inputs */
+.admin-card input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Button */
+.admin-card button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: black;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.admin-card button:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Click */
+.admin-card button:active {
+  transform: scale(0.97);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: #4facfe;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.dashboard-btn:hover {
+  transform: translateY(-2px);
+  background: #3a8dde;
+}
+.login-btn {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #ff7a18;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #e66a10;
+  transform: translateY(-2px);
+}

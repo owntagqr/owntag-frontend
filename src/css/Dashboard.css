@@ -1,0 +1,68 @@
+/* Layout */
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+.card01 {
+  /* background: #1e1e1e; */
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 220px;
+  text-align: center;
+  font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: #111;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  background: #333;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  background: #555;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  padding: 20px;
+  background: #f4f6f8;
+  overflow-y: auto;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: red;
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: darkred;
+}
