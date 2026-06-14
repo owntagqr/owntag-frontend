@@ -51,7 +51,7 @@ function AdminPage() {
 
         <div className="admin-card">
 
-          <h2>🚗 QR Vehicle Admin</h2>
+          <h2>🚗 OwnTag </h2>
           <p className="subtitle">Create QR for new vehicle</p>
 
           <input
