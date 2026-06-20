@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import api from "../services/api";
 import "../css/OrdersPage.css";
+import { toPng } from "html-to-image";
+import { useRef } from "react";
 
 function OrdersPage() {
 
@@ -13,6 +15,22 @@ function OrdersPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState(null);
+
+  const tagRef = useRef();
+const [qrCode, setQrCode] = useState("");
+
+const downloadTag = (code) => {
+  setQrCode(code);
+
+  setTimeout(() => {
+    toPng(tagRef.current).then((dataUrl) => {
+      const link = document.createElement("a");
+      link.download = `owntag-${code}.png`;
+      link.href = dataUrl;
+      link.click();
+    });
+  }, 400);
+};
 
   // ✅ LOAD ORDERS (FIXED WITH useCallback)
   const loadOrders = useCallback(() => {
@@ -42,7 +60,8 @@ function OrdersPage() {
     try {
       const res = await api.post(`/from-order/${orderId}`);
 
-      window.open(`${api.defaults.baseURL}/qr/${res.data.uniqueCode}`);
+      // window.open(`${api.defaults.baseURL}/qr/${res.data.uniqueCode}`);
+      downloadTag(res.data.uniqueCode);
 
       setMessage("✅ QR Generated & Customer Added!");
       setTimeout(() => setMessage(""), 2500);
@@ -240,6 +259,19 @@ function OrdersPage() {
         )}
 
       </div>
+      {/* 🔥 HIDDEN TAG TEMPLATE */}
+<div style={{ position: "absolute", left: "-9999px" }}>
+  <div ref={tagRef} className="relative w-[600px]">
+
+    <img src="/tag.png" className="w-full" alt="tag-preview" />
+
+    <img
+      src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.owntag.in/v/${qrCode}`}
+      className="absolute right-[35px] top-1/2 transform -translate-y-1/2 w-[160px] h-[160px]" alt="tag-preview"
+    />
+
+  </div>
+</div>
     </>
   );
 }

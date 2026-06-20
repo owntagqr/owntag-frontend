@@ -66,7 +66,7 @@ export default function LandingPage() {
       <div className="w-[600px]">
     
       <img
-      src="/tag01.png"   // 👈 your image name (change if different)
+      src="/tag.png"   // 👈 your image name (change if different)
       alt="OwnTag Preview"
       className="w-full rounded-xl shadow-2xl"
       />
