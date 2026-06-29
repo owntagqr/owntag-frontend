@@ -36,8 +36,27 @@ function OrdersPage() {
 
   // 🔄 UPDATE STATUS (UNCHANGED)
   const updateStatus = async (id, status) => {
-    await api.put(`/order/${id}/status?status=${status}`);
-    loadOrders();
+    try {
+
+  await api.put(`/order/${id}/status?status=${status}`);
+
+  setMessage("✅ Status updated");
+
+  setTimeout(() => setMessage(""), 2000);
+
+  loadOrders();
+
+} catch (err) {
+
+  const message =
+    err.response?.data?.message ||
+    err.response?.data ||
+    "❌ Status update failed";
+
+  setError(message);
+
+  setTimeout(() => setError(""), 3000);
+}
   };
 
   //PDF download
@@ -136,14 +155,39 @@ function OrdersPage() {
 
   // ✏️ UPDATE ORDER (UNCHANGED)
   const updateOrder = async () => {
-    await api.put(`/order/${editingOrder.id}`, editingOrder);
+
+  const data = {
+    ...editingOrder,
+    name: editingOrder.name.trim(),
+    phone: editingOrder.phone.trim(),
+    vehicleNumber: editingOrder.vehicleNumber.trim().toUpperCase(),
+    address: editingOrder.address.trim()
+  };
+
+  try {
+
+    await api.put(`/order/${editingOrder.id}`, data);
 
     setMessage("✅ Order updated");
+
     setTimeout(() => setMessage(""), 2000);
 
     setEditingOrder(null);
+
     loadOrders();
-  };
+
+  } catch (err) {
+
+    const message =
+      err.response?.data?.message ||
+      err.response?.data ||
+      "❌ Update failed";
+
+    setError(message);
+
+    setTimeout(() => setError(""), 3000);
+  }
+};
 
   return (
     <>
@@ -258,14 +302,14 @@ function OrdersPage() {
               <input
                 value={editingOrder.phone}
                 onChange={e =>
-                  setEditingOrder({ ...editingOrder, phone: e.target.value })
+                  setEditingOrder({ ...editingOrder, phone: e.target.value.replace(/\D/g,"") })
                 }
               />
 
               <input
                 value={editingOrder.vehicleNumber}
                 onChange={e =>
-                  setEditingOrder({ ...editingOrder, vehicleNumber: e.target.value })
+                  setEditingOrder({ ...editingOrder, vehicleNumber: e.target.value.toUpperCase() })
                 }
               />
 

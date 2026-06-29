@@ -48,71 +48,61 @@ function AdminPage() {
   }
 };
 
-  // ✅ PNG TAG DOWNLOAD (optional)
-  // const downloadTag = async (code, name, phone) => {
-  //   try {
-  //     const qrUrl = `${api.defaults.baseURL}/qr/${code}?t=${Date.now()}`;
-  //     const qrImg = tagRef.current.querySelector("#qr-img");
-
-  //     qrImg.src = "";
-  //     qrImg.src = qrUrl;
-
-  //     await new Promise((resolve, reject) => {
-  //       qrImg.onload = resolve;
-  //       qrImg.onerror = reject;
-  //     });
-
-  //     const dataUrl = await toPng(tagRef.current, { pixelRatio: 3 });
-
-  //     const safeName = (name || "customer").replace(/[^a-zA-Z0-9]/g, "_");
-  //     const safePhone = (phone || "0000").replace(/\D/g, "");
-
-  //     const link = document.createElement("a");
-  //     link.download = `${safeName}_${safePhone}.png`;
-  //     link.href = dataUrl;
-  //     link.click();
-
-  //   } catch {
-  //     setError("❌ Tag generation failed");
-  //     setTimeout(() => setError(""), 2000);
-  //   }
-  // };
 
   // ✅ SUBMIT
   const submit = async () => {
 
-    if (!form.ownerName || !form.phoneNumber || !form.vehicleNumber || !form.address) {
-      setError("Please fill all fields");
-      setTimeout(() => setError(""), 2000);
-      return;
-    }
-
-    try {
-      const res = await api.post("/add", form);
-
-      // 🔥 USE PDF (BEST QUALITY)
-      downloadPDF(
-        res.data.uniqueCode,
-        form.ownerName,
-        form.phoneNumber
-      );
-
-      setMessage("✅ QR Tag Generated!");
-
-      setForm({
-        ownerName: "",
-        phoneNumber: "",
-        vehicleNumber: "",
-        address: ""
-      });
-
-      setTimeout(() => setMessage(""), 2500);
-
-    } catch {
-      setError("❌ Error generating QR");
-      setTimeout(() => setError(""), 2500);
-    }
+  const data = {
+    ownerName: form.ownerName.trim(),
+    phoneNumber: form.phoneNumber.trim(),
+    vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
+    address: form.address.trim()
   };
+
+  if (
+    !data.ownerName ||
+    !data.phoneNumber ||
+    !data.vehicleNumber ||
+    !data.address
+  ) {
+    setError("Please fill all fields");
+    setTimeout(() => setError(""), 2500);
+    return;
+  }
+
+  try {
+
+    const res = await api.post("/add", data);
+
+    downloadPDF(
+      res.data.uniqueCode,
+      data.ownerName,
+      data.phoneNumber
+    );
+
+    setMessage("✅ QR Tag Generated!");
+
+    setForm({
+      ownerName: "",
+      phoneNumber: "",
+      vehicleNumber: "",
+      address: ""
+    });
+
+    setTimeout(() => setMessage(""), 2500);
+
+  } catch (err) {
+
+    const message =
+      err.response?.data?.message ||
+      err.response?.data ||
+      "❌ Error generating QR";
+
+    setError(message);
+
+    setTimeout(() => setError(""), 3000);
+  }
+};
 
   return (
     <>
@@ -142,28 +132,49 @@ function AdminPage() {
               className="text-black"
               placeholder="Owner Name"
               value={form.ownerName}
-              onChange={e => setForm({ ...form, ownerName: e.target.value })}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  ownerName: e.target.value
+                })
+              }
             />
 
             <input
               className="text-black"
               placeholder="Phone Number"
               value={form.phoneNumber}
-              onChange={e => setForm({ ...form, phoneNumber: e.target.value })}
+              maxLength={10}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  phoneNumber: e.target.value.replace(/\D/g, "")
+                })
+              }
             />
 
             <input
               className="text-black"
               placeholder="Vehicle Number"
               value={form.vehicleNumber}
-              onChange={e => setForm({ ...form, vehicleNumber: e.target.value })}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  vehicleNumber: e.target.value.toUpperCase()
+                })
+              }
             />
 
             <input
               className="text-black"
               placeholder="Address"
               value={form.address}
-              onChange={e => setForm({ ...form, address: e.target.value })}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  address: e.target.value
+                })
+              }
             />
 
             <button onClick={submit}>

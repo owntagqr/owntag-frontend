@@ -39,9 +39,15 @@ function VehiclePage() {
       setVehicle(res.data);
     }
   })
-  .catch(err => {
-    console.error(err);
-  });
+  .catch(err=>{
+
+const message =
+err.response?.data?.message ||
+"Vehicle not found.";
+
+setError(message);
+
+});
 
   return () => {
     isMounted = false;
@@ -66,38 +72,60 @@ console.log("Loaded code:", code);
 
   const submitOrder = async () => {
 
-    if (!form.name || !form.phone || !form.address || !form.vehicleNumber) {
-      setError("Please fill all fields");
-      setTimeout(() => setError(""), 2000);
-      return;
-    }
-
-    try {
-      await api.post("/order", {
-        ...form,
-        vehicleCode: code
-      });
-
-      setMessage("✅ Order placed successfully!");
-
-      setForm({
-        name: "",
-        phone: "",
-        address: "",
-        vehicleNumber: ""
-      });
-
-      setShowForm(false);
-
-      setTimeout(() => setMessage(""), 2500);
-
-    } catch {
-      setError("❌ Error placing order");
-      setTimeout(() => setError(""), 2500);
-    }
+  const data = {
+    name: form.name.trim(),
+    phone: form.phone.trim(),
+    address: form.address.trim(),
+    vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
+    vehicleCode: code
   };
 
-  if (!vehicle) return <h3 style={{ textAlign: "center" }}>Loading...</h3>;
+  if (
+    !data.name ||
+    !data.phone ||
+    !data.address ||
+    !data.vehicleNumber
+  ) {
+    setError("Please fill all fields");
+    setTimeout(() => setError(""), 2500);
+    return;
+  }
+
+  try {
+
+    await api.post("/order", data);
+
+    setMessage("✅ Order placed successfully!");
+
+    setForm({
+      name: "",
+      phone: "",
+      address: "",
+      vehicleNumber: ""
+    });
+
+    setShowForm(false);
+
+    setTimeout(() => setMessage(""), 2500);
+
+  } catch (err) {
+
+    const message =
+      err.response?.data?.message ||
+      err.response?.data ||
+      "❌ Error placing order";
+
+    setError(message);
+
+    setTimeout(() => setError(""), 3000);
+  }
+};
+
+  if (!vehicle) return (
+<div className="min-h-screen flex items-center justify-center">
+<h3>Loading...</h3>
+</div>
+);
 
   return (
     <>
@@ -164,7 +192,7 @@ console.log("Loaded code:", code);
                   className="text-black"
                   placeholder="Phone Number"
                   value={form.phone}
-                  onChange={e => setForm({ ...form, phone: e.target.value })}
+                  onChange={e => setForm({ ...form, phone: e.target.value.replace(/\D/g,"") })}maxLength={10}
                 />
 
                 <textarea
@@ -178,7 +206,7 @@ console.log("Loaded code:", code);
                   className="text-black"
                   placeholder="Vehicle Number"
                   value={form.vehicleNumber}
-                  onChange={e => setForm({ ...form, vehicleNumber: e.target.value })}
+                  onChange={e => setForm({ ...form, vehicleNumber: e.target.value.toUpperCase() })}
                 />
 
                 <button style={{ color: "black" }} onClick={submitOrder}>

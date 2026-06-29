@@ -8,13 +8,30 @@ export default function TrackPage() {
   const [orders, setOrders] = useState([]);
 
   const search = async () => {
-    try {
-      const res = await api.get(`/order/track/${phone.trim()}`);
-      setOrders(res.data);
-    } catch {
-      alert("No orders found");
-    } 
-  };
+
+  if (phone.trim().length !== 10) {
+    alert("Please enter a valid 10-digit phone number.");
+    return;
+  }
+
+  try {
+
+    const res = await api.get(`/order/track/${phone.trim()}`);
+
+    setOrders(res.data);
+
+  } catch (err) {
+
+    const message =
+      err.response?.data?.message ||
+      err.response?.data ||
+      "No orders found.";
+
+    alert(message);
+
+    setOrders([]);
+  }
+};
 
   const getStep = (status) => {
     if (status === "PENDING") return 1;
@@ -46,7 +63,12 @@ export default function TrackPage() {
             className="w-full p-3 rounded bg-white text-black mb-4 outline-none text-sm sm:text-base"
             placeholder="📱 Phone Number"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                search();
+              }
+            }}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}maxLength={10}
           />
 
           <button

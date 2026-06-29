@@ -15,7 +15,18 @@ function LoginPage() {
 
   const login = () => {
 
-    if (username === "admin" && password === "AbhiAdmin@0399") {
+    // Validate inputs
+    if (!username.trim() || !password.trim()) {
+      setError("⚠ Please enter username and password.");
+      setTimeout(() => setError(""), 2500);
+      return;
+    }
+
+    // Current login (temporary)
+    if (
+      username.trim() === "admin" &&
+      password === "AbhiAdmin@0399"
+    ) {
 
       localStorage.setItem("admin", "true");
 
@@ -26,22 +37,27 @@ function LoginPage() {
       }, 1000);
 
     } else {
-      setError("❌ Invalid credentials");
 
-      setTimeout(() => setError(""), 2000);
+      setPassword("");
+
+      setError("❌ Invalid username or password.");
+
+      setTimeout(() => {
+        setError("");
+      }, 2500);
     }
   };
 
   return (
     <>
-      {/* ✅ SUCCESS MESSAGE */}
+      {/* SUCCESS MESSAGE */}
       {message && (
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
           {message}
         </div>
       )}
 
-      {/* ❌ ERROR MESSAGE */}
+      {/* ERROR MESSAGE */}
       {error && (
         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
           {error}
@@ -59,17 +75,27 @@ function LoginPage() {
             <input
               className="text-black"
               placeholder="Username"
-              onChange={e => setUsername(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") login();
+              }}
             />
 
             <input
               className="text-black"
               type="password"
               placeholder="Password"
-              onChange={e => setPassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") login();
+              }}
             />
 
-            <button onClick={login}>Login</button>
+            <button onClick={login}>
+              Login
+            </button>
 
           </div>
         </div>

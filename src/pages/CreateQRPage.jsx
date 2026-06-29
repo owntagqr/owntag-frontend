@@ -10,34 +10,97 @@ function CreateQRPage() {
   });
 
   const submit = async () => {
-    try {
-      const res = await api.post("/add", form);
 
-      // Open QR download
-      window.open(`http://localhost:8080/api/qr/${res.data.uniqueCode}`);
-      // window.open(`https://api.owntag.in/api/qr/${res.data.uniqueCode}`);
+    const data = {
+      ownerName: form.ownerName.trim(),
+      phoneNumber: form.phoneNumber.trim(),
+      vehicleNumber: form.vehicleNumber.trim().toUpperCase()
+    };
+
+    if (
+      !data.ownerName ||
+      !data.phoneNumber ||
+      !data.vehicleNumber
+    ) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    try {
+
+      const res = await api.post("/add", data);
+
+      // Download QR
+      window.open(
+        `${api.defaults.baseURL}/qr/${res.data.uniqueCode}`,
+        "_blank"
+      );
 
       alert("✅ QR Generated!");
 
+      setForm({
+        ownerName: "",
+        phoneNumber: "",
+        vehicleNumber: ""
+      });
+
     } catch (err) {
-      alert("❌ Error generating QR");
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "❌ Error generating QR";
+
+      alert(message);
     }
   };
 
   return (
-    <div style={{textAlign:"center"}}>
+    <div style={{ textAlign: "center" }}>
+
       <h2>🚗 Get Your QR</h2>
 
-      <input placeholder="Your Name"
-        onChange={e => setForm({...form, ownerName: e.target.value})} />
+      <input
+        placeholder="Your Name"
+        value={form.ownerName}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            ownerName: e.target.value
+          })
+        }
+      />
 
-      <input placeholder="Phone Number"
-        onChange={e => setForm({...form, phoneNumber: e.target.value})} />
+      <input
+        placeholder="Phone Number"
+        value={form.phoneNumber}
+        maxLength={10}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            phoneNumber: e.target.value.replace(/\D/g, "")
+          })
+        }
+      />
 
-      <input placeholder="Vehicle Number"
-        onChange={e => setForm({...form, vehicleNumber: e.target.value})} />
+      <input
+        placeholder="Vehicle Number"
+        value={form.vehicleNumber}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            vehicleNumber: e.target.value.toUpperCase()
+          })
+        }
+      />
 
-      <button onClick={submit}>Generate QR</button>
+      <br />
+      <br />
+
+      <button onClick={submit}>
+        Generate QR
+      </button>
+
     </div>
   );
 }

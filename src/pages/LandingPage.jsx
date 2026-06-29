@@ -3,9 +3,10 @@ import Navbar from "../components/NavBar";
 import api from "../services/api";
 
 export default function LandingPage() {
-  
+
   const [showForm, setShowForm] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -15,12 +16,25 @@ export default function LandingPage() {
   });
 
   const submit = async () => {
+
+    // Frontend Validation
+    if (
+      !form.name.trim() ||
+      !form.phone.trim() ||
+      !form.vehicleNumber.trim() ||
+      !form.address.trim()
+    ) {
+      setError("Please fill all fields.");
+      setTimeout(() => setError(""), 3000);
+      return;
+    }
+
     try {
+
       await api.post("/order", form);
 
       setSuccess(true);
 
-      // ✅ Reset form
       setForm({
         name: "",
         phone: "",
@@ -28,14 +42,23 @@ export default function LandingPage() {
         address: ""
       });
 
-      // ✅ Close form after success
       setTimeout(() => {
         setSuccess(false);
-        setShowForm(false);   // 🔥 FIX
+        setShowForm(false);
       }, 2500);
 
-    } catch {
-      console.log("Error placing order");
+    } catch (err) {
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data ||
+        "Unable to place order.";
+
+      setError(message);
+
+      setTimeout(() => {
+        setError("");
+      }, 3000);
     }
   };
 
@@ -46,7 +69,10 @@ export default function LandingPage() {
 
       {/* HERO */}
       <section className="text-center py-20 px-6">
-        <h1 className="text-5xl font-bold">OwnTag</h1>
+
+        <h1 className="text-5xl font-bold">
+          OwnTag
+        </h1>
 
         <p className="text-indigo-300 mt-3 text-lg">
           TAG IT • SCAN IT • MOVE IT
@@ -58,40 +84,57 @@ export default function LandingPage() {
         >
           Order Now
         </button>
+
       </section>
 
       {/* TAG PREVIEW */}
       <section className="flex justify-center py-16">
 
-      <div className="w-[600px]">
-    
-      <img
-      src="/tag.png"   // 👈 your image name (change if different)
-      alt="OwnTag Preview"
-      className="w-full rounded-xl shadow-2xl"
-      />
+        <div className="w-[600px]">
 
-      </div>
+          <img
+            src="/tag.png"
+            alt="OwnTag Preview"
+            className="w-full rounded-xl shadow-2xl"
+          />
 
-    </section>
+        </div>
+
+      </section>
 
       {/* VIDEO */}
       <section className="text-center py-16 px-6">
-        <h2 className="text-2xl mb-6">See It In Action</h2>
+
+        <h2 className="text-2xl mb-6">
+          See It In Action
+        </h2>
+
         <video controls className="w-full max-w-xl mx-auto rounded">
           <source src="/demo.mp4" type="video/mp4" />
         </video>
+
       </section>
 
-      {/* ADS */}
+      {/* FEATURES */}
       <section className="grid md:grid-cols-3 gap-6 px-6 py-16 text-center">
-        <div className="bg-white/10 p-6 rounded">Fast Delivery</div>
-        <div className="bg-white/10 p-6 rounded">Secure QR</div>
-        <div className="bg-white/10 p-6 rounded">Easy Tracking</div>
+
+        <div className="bg-white/10 p-6 rounded">
+          Fast Delivery
+        </div>
+
+        <div className="bg-white/10 p-6 rounded">
+          Secure QR
+        </div>
+
+        <div className="bg-white/10 p-6 rounded">
+          Easy Tracking
+        </div>
+
       </section>
 
       {/* ORDER FORM */}
       {showForm && (
+
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50">
 
           <div className="bg-white text-black p-8 rounded-2xl w-[90%] max-w-md shadow-2xl relative">
@@ -106,28 +149,49 @@ export default function LandingPage() {
                 className="w-full p-3 border rounded-lg"
                 placeholder="👤 Full Name"
                 value={form.name}
-                onChange={e => setForm({...form, name: e.target.value})}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    name: e.target.value
+                  })
+                }
               />
 
               <input
                 className="w-full p-3 border rounded-lg"
                 placeholder="📱 Phone Number"
                 value={form.phone}
-                onChange={e => setForm({...form, phone: e.target.value})}
+                maxLength={10}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    phone: e.target.value.replace(/\D/g, "")
+                  })
+                }
               />
 
               <input
                 className="w-full p-3 border rounded-lg"
                 placeholder="🚘 Vehicle Number"
                 value={form.vehicleNumber}
-                onChange={e => setForm({...form, vehicleNumber: e.target.value})}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    vehicleNumber: e.target.value.toUpperCase()
+                  })
+                }
               />
 
               <textarea
                 className="w-full p-3 border rounded-lg"
                 placeholder="📍 Delivery Address"
                 value={form.address}
-                onChange={e => setForm({...form, address: e.target.value})}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    address: e.target.value
+                  })
+                }
               />
 
             </div>
@@ -147,11 +211,25 @@ export default function LandingPage() {
             </button>
 
           </div>
+
         </div>
+
+      )}
+
+      {/* ERROR POPUP */}
+      {error && (
+
+        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+
+          {error}
+
+        </div>
+
       )}
 
       {/* SUCCESS POPUP */}
       {success && (
+
         <div className="fixed inset-0 flex items-center justify-center z-50">
 
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
@@ -159,7 +237,11 @@ export default function LandingPage() {
           <div className="relative bg-white text-black rounded-2xl p-8 w-[90%] max-w-sm text-center shadow-2xl">
 
             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-500 flex items-center justify-center">
-              <span className="text-2xl text-white">✔</span>
+
+              <span className="text-2xl text-white">
+                ✔
+              </span>
+
             </div>
 
             <h2 className="text-xl font-bold mb-2">
@@ -171,7 +253,9 @@ export default function LandingPage() {
             </p>
 
           </div>
+
         </div>
+
       )}
 
     </div>

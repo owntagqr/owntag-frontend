@@ -10,14 +10,30 @@ function DashboardHome() {
   });
 
   useEffect(() => {
-    api.get("/order/count").then(res => {
-      setStats(prev => ({ ...prev, orders: res.data }));
-    });
 
-    api.get("/vehicle/count").then(res => {
-      setStats(prev => ({ ...prev, customers: res.data }));
-    });
-  }, []);
+  const loadStats = async () => {
+
+    try {
+
+      const [ordersRes, customersRes] = await Promise.all([
+        api.get("/order/count"),
+        api.get("/vehicle/count")
+      ]);
+
+      setStats({
+        orders: ordersRes.data,
+        customers: customersRes.data
+      });
+
+    } catch (err) {
+      console.error("Failed to load dashboard stats", err);
+    }
+
+  };
+
+  loadStats();
+
+}, []);
 
   return (
     <div className="dashboard-home">

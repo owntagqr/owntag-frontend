@@ -19,10 +19,15 @@ function Dashboard() {
         <button onClick={() => setPage("orders")}>📦 Orders</button>
         <button onClick={() => setPage("create")}>➕ Add Vehicle</button>
         <button onClick={() => setPage("customers")}>👥 Customers</button>
-         <button className="logout-btn" onClick={() => {localStorage.removeItem("admin");
-        window.location.href = "/";}}>
-       🚪 Logout
-        </button>
+         <button
+  className="logout-btn"
+  onClick={() => {
+    localStorage.removeItem("admin");
+    navigate("/");
+  }}
+>
+  🚪 Logout
+</button>
         <DashboardHome />
       </div>
 

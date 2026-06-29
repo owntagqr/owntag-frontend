@@ -54,9 +54,15 @@ function CustomersPage() {
     link.click();
     link.remove();
 
-  } catch {
-    console.error("PDF download failed");
-  }
+  } catch (err) {
+  setError(
+    err.response?.data?.message ||
+    err.response?.data ||
+    "❌ PDF download failed"
+  );
+
+  setTimeout(() => setError(""), 3000);
+}
 };
 
   // ✅ FINAL TAG DOWNLOAD (FULL TAG WITH QR)
@@ -98,20 +104,54 @@ function CustomersPage() {
       setTimeout(() => setMessage(""), 2000);
       setDeleteId(null);
       loadCustomers();
-    } catch {
-      setError("❌ Delete failed");
-      setTimeout(() => setError(""), 2000);
-    }
+    } catch (err) {
+
+  const message =
+    err.response?.data?.message ||
+    err.response?.data ||
+    "❌ Delete failed";
+
+  setError(message);
+
+  setTimeout(() => setError(""), 3000);
+}
   };
 
   // ✏️ UPDATE CUSTOMER
   const updateCustomer = async () => {
-    await api.put(`/vehicle/${editingCustomer.id}`, editingCustomer);
-    setMessage("✅ Customer updated");
-    setTimeout(() => setMessage(""), 2000);
-    setEditingCustomer(null);
-    loadCustomers();
+
+  const data = {
+    ...editingCustomer,
+    ownerName: editingCustomer.ownerName.trim(),
+    phoneNumber: editingCustomer.phoneNumber.trim(),
+    vehicleNumber: editingCustomer.vehicleNumber.trim().toUpperCase(),
+    address: editingCustomer.address.trim()
   };
+
+  try {
+
+    await api.put(`/vehicle/${editingCustomer.id}`, data);
+
+    setMessage("✅ Customer updated");
+
+    setTimeout(() => setMessage(""), 2000);
+
+    setEditingCustomer(null);
+
+    loadCustomers();
+
+  } catch (err) {
+
+    const message =
+      err.response?.data?.message ||
+      err.response?.data ||
+      "❌ Update failed";
+
+    setError(message);
+
+    setTimeout(() => setError(""), 3000);
+  }
+};
 
   return (
     <>
@@ -201,14 +241,15 @@ function CustomersPage() {
               <input
                 value={editingCustomer.phoneNumber}
                 onChange={e =>
-                  setEditingCustomer({ ...editingCustomer, phoneNumber: e.target.value })
+                  setEditingCustomer({ ...editingCustomer, phoneNumber: e.target.value.replace(/\D/g,"") })
                 }
+                maxLength={10}
               />
 
               <input
                 value={editingCustomer.vehicleNumber}
                 onChange={e =>
-                  setEditingCustomer({ ...editingCustomer, vehicleNumber: e.target.value })
+                  setEditingCustomer({ ...editingCustomer, vehicleNumber: e.target.value.toUpperCase() })
                 }
               />
 
