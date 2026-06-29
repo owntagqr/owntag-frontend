@@ -4,11 +4,12 @@ import "../css/Dashboard.css";
 import CustomersPage from "./CustomersPage";
 import AdminPage from "../pages/AdminPage"; // ✅ ADD THIS
 import DashboardHome from "./DashBoardHome";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
 
   const [page, setPage] = useState("orders");
+  const navigate = useNavigate();
 
   return (
     <div className="dashboard">
@@ -24,7 +25,7 @@ function Dashboard() {
   className="logout-btn"
   onClick={() => {
     localStorage.removeItem("admin");
-    Navigate("/");
+    navigate("/");
   }}
 >
   🚪 Logout
