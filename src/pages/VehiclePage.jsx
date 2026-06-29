@@ -110,15 +110,35 @@ console.log("Loaded code:", code);
 
   } catch (err) {
 
-    const message =
-      err.response?.data?.message ||
-      err.response?.data ||
-      "❌ Error placing order";
+  let message = "Unable to place order.";
 
-    setError(message);
+  const data = err.response?.data;
 
-    setTimeout(() => setError(""), 3000);
+  if (typeof data === "string") {
+    message = data;
   }
+  else if (data?.message) {
+    message = data.message;
+  }
+  else if (data?.errors) {
+    message = Object.values(data.errors).join("\n");
+  }
+  else if (data?.phone) {
+    message = data.phone;
+  }
+  else if (data?.vehicleNumber) {
+    message = data.vehicleNumber;
+  }
+  else if (data?.address) {
+    message = data.address;
+  }
+
+  setError(message);
+
+  setTimeout(() => {
+    setError("");
+  }, 3000);
+}
 };
 
   if (!vehicle) return (
