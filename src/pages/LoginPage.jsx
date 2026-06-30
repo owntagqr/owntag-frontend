@@ -65,7 +65,7 @@ function LoginPage() {
       )}
 
       <div>
-        <Navbar />
+        <Navbar showOrderButton={false} />
 
         <div className="login-bg">
           <div className="login-card">

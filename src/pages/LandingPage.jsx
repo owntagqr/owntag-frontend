@@ -1,5 +1,16 @@
+
 import { useState } from "react";
 import Navbar from "../components/NavBar";
+import Hero from "../components/Hero";
+import BrandStrip from "../components/BrandStrip";
+import ImageCarousel from "../components/ImageCurousel";
+import PricingSection from "../components/PricingSection";
+import Features from "../components/Features";
+import HowItWorks from "../components/HowItWorks";
+import Review from "../components/Review";
+import FAQ from "../components/FAQ";
+import CTA from "../components/CTA";
+import Footer from "../components/Footer";
 import api from "../services/api";
 
 export default function LandingPage() {
@@ -17,7 +28,6 @@ export default function LandingPage() {
 
   const submit = async () => {
 
-    // Frontend Validation
     if (
       !form.name.trim() ||
       !form.phone.trim() ||
@@ -49,108 +59,65 @@ export default function LandingPage() {
 
     } catch (err) {
 
-  let message = "Unable to place order.";
+      let message = "Unable to place order.";
 
-  const data = err.response?.data;
+      const data = err.response?.data;
 
-  if (typeof data === "string") {
-    message = data;
-  }
-  else if (data?.message) {
-    message = data.message;
-  }
-  else if (data?.errors) {
-    message = Object.values(data.errors).join("\n");
-  }
-  else if (data?.phone) {
-    message = data.phone;
-  }
-  else if (data?.vehicleNumber) {
-    message = data.vehicleNumber;
-  }
-  else if (data?.address) {
-    message = data.address;
-  }
+      if (typeof data === "string") {
+        message = data;
+      }
+      else if (data?.message) {
+        message = data.message;
+      }
+      else if (data?.errors) {
+        message = Object.values(data.errors).join("\n");
+      }
+      else if (data?.phone) {
+        message = data.phone;
+      }
+      else if (data?.vehicleNumber) {
+        message = data.vehicleNumber;
+      }
+      else if (data?.address) {
+        message = data.address;
+      }
 
-  setError(message);
+      setError(message);
 
-  setTimeout(() => {
-    setError("");
-  }, 3000);
-}
+      setTimeout(() => {
+        setError("");
+      }, 3000);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-900 to-purple-900 text-white">
 
-      <Navbar onOrderClick={() => setShowForm(true)} />
+    <div className="bg-gradient-to-br from-black via-indigo-900 to-purple-900 text-white">
 
-      {/* HERO */}
-      <section className="text-center py-20 px-6">
+      <Navbar onOrderClick={() => setShowForm(true)} showOrderButton={true} />
 
-        <h1 className="text-5xl font-bold">
-          OwnTag
-        </h1>
+      <Hero onOrderClick={() => setShowForm(true)} />
 
-        <p className="text-indigo-300 mt-3 text-lg">
-          TAG IT • SCAN IT • MOVE IT
-        </p>
+      <BrandStrip />
 
-        <button
-          onClick={() => setShowForm(true)}
-          className="mt-6 bg-orange-500 px-6 py-3 rounded-lg"
-        >
-          Order Now
-        </button>
+      <ImageCarousel />
 
-      </section>
+      <PricingSection onOrderClick={() => setShowForm(true)} />
 
-      {/* TAG PREVIEW */}
-      <section className="flex justify-center py-16">
+      <Features />
 
-        <div className="w-[600px]">
+      <HowItWorks />
 
-          <img
-            src="/tag.png"
-            alt="OwnTag Preview"
-            className="w-full rounded-xl shadow-2xl"
-          />
+      <Review />
 
-        </div>
+      <FAQ />
 
-      </section>
+      <CTA onOrderClick={() => setShowForm(true)} />
 
-      {/* VIDEO */}
-      <section className="text-center py-16 px-6">
+      <Footer />
 
-        <h2 className="text-2xl mb-6">
-          See It In Action
-        </h2>
+      {/* ORDER POPUP */}
 
-        <video controls className="w-full max-w-xl mx-auto rounded">
-          <source src="/demo.mp4" type="video/mp4" />
-        </video>
-
-      </section>
-
-      {/* FEATURES */}
-      <section className="grid md:grid-cols-3 gap-6 px-6 py-16 text-center">
-
-        <div className="bg-white/10 p-6 rounded">
-          Fast Delivery
-        </div>
-
-        <div className="bg-white/10 p-6 rounded">
-          Secure QR
-        </div>
-
-        <div className="bg-white/10 p-6 rounded">
-          Easy Tracking
-        </div>
-
-      </section>
-
-      {/* ORDER FORM */}
       {showForm && (
 
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50">
@@ -215,12 +182,12 @@ export default function LandingPage() {
             </div>
 
             <button
-  type="button"
-  onClick={submit}
-  className="w-full mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 rounded-lg font-semibold"
->
-  🚀 Place Order
-</button>
+              type="button"
+              onClick={submit}
+              className="w-full mt-6 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-lg font-semibold hover:scale-105 transition"
+            >
+              🚀 Place Order
+            </button>
 
             <button
               onClick={() => setShowForm(false)}
@@ -235,10 +202,11 @@ export default function LandingPage() {
 
       )}
 
-      {/* ERROR POPUP */}
+      {/* ERROR */}
+
       {error && (
 
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
 
           {error}
 
@@ -246,7 +214,8 @@ export default function LandingPage() {
 
       )}
 
-      {/* SUCCESS POPUP */}
+      {/* SUCCESS */}
+
       {success && (
 
         <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -268,7 +237,7 @@ export default function LandingPage() {
             </h2>
 
             <p className="text-gray-600 text-sm">
-              Your QR tag order has been received successfully 🚀
+              Your QR Tag order has been received successfully.
             </p>
 
           </div>

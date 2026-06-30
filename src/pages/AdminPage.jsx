@@ -59,14 +59,31 @@ function AdminPage() {
     address: form.address.trim()
   };
 
-  if (
-    !data.ownerName ||
-    !data.phoneNumber ||
-    !data.vehicleNumber ||
-    !data.address
-  ) {
-    setError("Please fill all fields");
-    setTimeout(() => setError(""), 2500);
+  // Owner Name
+  if (data.ownerName.length < 3) {
+    setError("Owner name must contain at least 3 characters.");
+    setTimeout(() => setError(""), 3000);
+    return;
+  }
+
+  // Phone Number
+  if (!/^[6-9]\d{9}$/.test(data.phoneNumber)) {
+    setError("Enter a valid 10-digit Indian mobile number.");
+    setTimeout(() => setError(""), 3000);
+    return;
+  }
+
+  // Vehicle Number
+  if (!/^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$/.test(data.vehicleNumber)) {
+    setError("Enter a valid vehicle number (Example: AP39AB1234)");
+    setTimeout(() => setError(""), 3000);
+    return;
+  }
+
+  // Address
+  if (data.address.length < 10) {
+    setError("Address must be at least 10 characters.");
+    setTimeout(() => setError(""), 3000);
     return;
   }
 
@@ -89,39 +106,30 @@ function AdminPage() {
       address: ""
     });
 
-    setTimeout(() => setMessage(""), 2500);
+    setTimeout(() => {
+      setMessage("");
+    }, 2500);
 
   } catch (err) {
 
-  let message = "Unable to place order.";
+    let message = "Unable to generate QR.";
 
-  const data = err.response?.data;
+    const response = err.response?.data;
 
-  if (typeof data === "string") {
-    message = data;
-  }
-  else if (data?.message) {
-    message = data.message;
-  }
-  else if (data?.errors) {
-    message = Object.values(data.errors).join("\n");
-  }
-  else if (data?.phone) {
-    message = data.phone;
-  }
-  else if (data?.vehicleNumber) {
-    message = data.vehicleNumber;
-  }
-  else if (data?.address) {
-    message = data.address;
-  }
+    if (typeof response === "string") {
+      message = response;
+    } else if (response?.message) {
+      message = response.message;
+    } else if (response?.errors) {
+      message = Object.values(response.errors).join("\n");
+    }
 
-  setError(message);
+    setError(message);
 
-  setTimeout(() => {
-    setError("");
-  }, 3000);
-}
+    setTimeout(() => {
+      setError("");
+    }, 3000);
+  }
 };
 
   return (

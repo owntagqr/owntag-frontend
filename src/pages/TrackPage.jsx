@@ -43,7 +43,10 @@ export default function TrackPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-indigo-900 to-purple-900 text-white">
 
-      <Navbar />
+      <Navbar
+      className="bg-transparent"
+      showOrderButton={false}
+      />
 
       {/* HEADER */}
       <div className="text-center mt-16 sm:mt-20 px-4">
