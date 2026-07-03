@@ -115,7 +115,7 @@ export default function Footer() {
                 <FaPhoneAlt className="text-orange-500 mt-1" />
 
                 <span className="text-gray-400">
-                  +91 XXXXXXXXXX
+                  +91 8886983273
                 </span>
 
               </div>
@@ -125,7 +125,7 @@ export default function Footer() {
                 <FaEnvelope className="text-orange-500 mt-1" />
 
                 <span className="text-gray-400">
-                  support@owntag.in
+                  owntag.in@gmail.com
                 </span>
 
               </div>
@@ -155,7 +155,7 @@ export default function Footer() {
             <div className="flex gap-5 text-2xl">
 
               <a
-                href="https://instagram.com/"
+                href="https://www.instagram.com/owntag.in?utm_source=qr&igsh=aTF3cGtndnNqYmJr"
                 target="_blank"
                 rel="noreferrer"
                 className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-orange-500 transition"
@@ -164,7 +164,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://youtube.com/"
+                href="https://youtube.com/@owntag-g7c?si=UzjKZuGpGaObR3bW"
                 target="_blank"
                 rel="noreferrer"
                 className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-600 transition"
@@ -173,7 +173,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="https://linkedin.com/"
+                href="https://www.linkedin.com/in/owntag-your-vehicle-your-identity-29573041b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
                 target="_blank"
                 rel="noreferrer"
                 className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600 transition"

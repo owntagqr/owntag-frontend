@@ -17,12 +17,17 @@ const slides = [
     subtitle: "Premium waterproof QR stickers."
   },
   {
+    image: "/carousel/multi.jpg",
+    title: "Smart QR For Your Belongings",
+    subtitle: "Anyone can contact you instantly."
+  },
+  {
     image: "/carousel/scan.jpg",
     title: "Scan & Connect",
     subtitle: "No App Required."
   },
   {
-    image: "/carousel/tag.jpg",
+    image: "/carousel/tag.jpg", 
     title: "Premium QR Sticker",
     subtitle: "High-quality UV printed tags."
   },

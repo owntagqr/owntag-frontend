@@ -8,6 +8,10 @@
       "type": "image/x-icon"
     },
     {
+      "short_name": "OwnTag",
+      "name": "OwnTag - Smart QR Tags"
+    },
+    {
       "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
