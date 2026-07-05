@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export default function Hero({ onOrderClick }) {
+export default function Hero({ onOrderClick, onWatchDemo }) {
   return (
     <section className="min-h-screen flex items-center bg-gradient-to-br from-black via-indigo-900 to-purple-900 pt-24">
 
@@ -53,12 +53,13 @@ export default function Hero({ onOrderClick }) {
               🔥 Get 2 Tags @ ₹339
             </button>
 
-            <a
-              href="#video"
+            <button
+              type="button"
+              onClick={onWatchDemo}
               className="border border-white text-white hover:bg-white hover:text-black transition duration-300 px-8 py-4 rounded-xl font-semibold"
             >
               ▶ Watch Demo
-            </a>
+            </button>
 
           </div>
 

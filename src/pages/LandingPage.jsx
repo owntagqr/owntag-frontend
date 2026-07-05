@@ -5,6 +5,7 @@ import Hero from "../components/Hero";
 import BrandStrip from "../components/BrandStrip";
 import ImageCarousel from "../components/ImageCurousel";
 import PricingSection from "../components/PricingSection";
+import ReactPlayer from "react-player";
 import Features from "../components/Features";
 import HowItWorks from "../components/HowItWorks";
 import Review from "../components/Review";
@@ -18,6 +19,7 @@ export default function LandingPage() {
   const [showForm, setShowForm] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [showVideo, setShowVideo] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -96,7 +98,10 @@ export default function LandingPage() {
 
       <Navbar onOrderClick={() => setShowForm(true)} showOrderButton={true} />
 
-      <Hero onOrderClick={() => setShowForm(true)} />
+      <Hero
+      onOrderClick={() => setShowForm(true)}
+      onWatchDemo={() => setShowVideo(true)}
+      />
 
       <BrandStrip />
 
@@ -245,6 +250,40 @@ export default function LandingPage() {
         </div>
 
       )}
+
+      {/* VIDEO POPUP */}
+
+{showVideo && (
+
+<div className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-[9999]">
+
+    <div className="relative w-[95%] max-w-5xl rounded-2xl overflow-hidden shadow-2xl border border-white/20">
+
+        {/* Close */}
+
+        <button
+            onClick={() => setShowVideo(false)}
+            className="absolute top-4 right-4 z-50 w-12 h-12 rounded-full bg-red-500 hover:bg-red-600 text-white text-2xl font-bold flex items-center justify-center transition"
+        >
+            ✕
+        </button>
+
+        <ReactPlayer
+            url="/videos/demo01.mp4"
+            controls
+            playing
+            width="100%"
+            height="75vh"
+            style={{
+                background: "#000"
+            }}
+        />
+
+    </div>
+
+</div>
+
+)}
 
     </div>
   );

@@ -18,7 +18,7 @@ const slides = [
   },
   {
     image: "/carousel/multi.jpg",
-    title: "Smart QR For Your Belongings",
+    title: "Smart QR For Your Assets",
     subtitle: "Anyone can contact you instantly."
   },
   {
