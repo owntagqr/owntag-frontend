@@ -35,8 +35,6 @@ export default function LandingPage() {
     if (
       !form.name.trim() ||
       !form.phone.trim() ||
-      !form.emergencyName.trim() ||
-      !form.emergencyPhone.trim() ||
       !form.vehicleNumber.trim() ||
       !form.address.trim()
     ) {
@@ -151,78 +149,78 @@ export default function LandingPage() {
             <div className="space-y-3">
 
               <input
-                className="w-full p-3 border rounded-lg"
-                placeholder="👤 Full Name"
-                value={form.name}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    name: e.target.value
-                  })
-                }
-              />
+              className="w-full p-3 border rounded-lg"
+              placeholder="👤 Full Name *"
+              value={form.name}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  name: e.target.value
+                })
+              }
+            />
 
-              <input
-                className="w-full p-3 border rounded-lg"
-                placeholder="📱 Phone Number"
-                value={form.phone}
-                maxLength={10}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    phone: e.target.value.replace(/\D/g, "")
-                  })
-                }
-              />
+            <input
+              className="w-full p-3 border rounded-lg"
+              placeholder="📱 Phone Number *"
+              value={form.phone}
+              maxLength={10}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  phone: e.target.value.replace(/\D/g, "")
+                })
+              }
+            />
 
-              <input
-                className="w-full p-3 border rounded-lg"
-                placeholder="👨 Emergency Contact Name"
-                value={form.emergencyName}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    emergencyName: e.target.value
-                  })
-                }
-              />
+            <input
+              className="w-full p-3 border rounded-lg"
+              placeholder="👨 Emergency Contact Name (Optional)"
+              value={form.emergencyName}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  emergencyName: e.target.value
+                })
+              }
+            />
 
-              <input
-                className="w-full p-3 border rounded-lg"
-                placeholder="📞 Emergency Contact Number"
-                value={form.emergencyPhone}
-                maxLength={10}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    emergencyPhone: e.target.value.replace(/\D/g, "")
-                  })
-                }
-              />
+            <input
+              className="w-full p-3 border rounded-lg"
+              placeholder="📞 Emergency Contact Number (Optional)"
+              value={form.emergencyPhone}
+              maxLength={10}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  emergencyPhone: e.target.value.replace(/\D/g, "")
+                })
+              }
+            />
 
-              <input
-                className="w-full p-3 border rounded-lg"
-                placeholder="🚘 Vehicle Number"
-                value={form.vehicleNumber}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    vehicleNumber: e.target.value.toUpperCase()
-                  })
-                }
-              />
+            <input
+              className="w-full p-3 border rounded-lg"
+              placeholder="🚘 Vehicle Number *"
+              value={form.vehicleNumber}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  vehicleNumber: e.target.value.toUpperCase()
+                })
+              }
+            />
 
-              <textarea
-                className="w-full p-3 border rounded-lg"
-                placeholder="📍 Delivery Address"
-                value={form.address}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    address: e.target.value
-                  })
-                }
-              />
+            <textarea
+              className="w-full p-3 border rounded-lg"
+              placeholder="📍 Delivery Address *"
+              value={form.address}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  address: e.target.value
+                })
+              }
+            />
 
             </div>
 

@@ -16,7 +16,7 @@ function Dashboard() {
 
       {/* Sidebar */}
       <div className="sidebar">
-        <h2>🚗 QRVehicle</h2>
+        <h2>🚗 OwnTag</h2>
 
         <button onClick={() => setPage("orders")}>📦 Orders</button>
         <button onClick={() => setPage("create")}>➕ Add Vehicle</button>

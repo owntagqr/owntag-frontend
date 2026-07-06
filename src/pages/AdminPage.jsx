@@ -77,18 +77,22 @@ function AdminPage() {
     return;
   }
   // Emergency Contact Name
-  if (data.emergencyName.length < 3) {
-    setError("Emergency contact name must contain at least 3 characters.");
-    setTimeout(() => setError(""), 3000);
+  if (
+    form.emergencyName &&
+    form.emergencyName.trim().length < 3
+) {
+    setError("Emergency Contact Name must be at least 3 characters.");
     return;
-  }
+}
 
   // Emergency Contact Number
-  if (!/^[6-9]\d{9}$/.test(data.emergencyPhone)) {
-    setError("Enter a valid 10-digit emergency contact number.");
-    setTimeout(() => setError(""), 3000);
+  if (
+    form.emergencyPhone &&
+    !/^[6-9]\d{9}$/.test(form.emergencyPhone)
+) {
+    setError("Enter a valid Emergency Contact Number.");
     return;
-  }
+}
 
   // Vehicle Number
   if (!/^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$/.test(data.vehicleNumber)) {
@@ -176,78 +180,78 @@ function AdminPage() {
             <p className="subtitle">Create QR for new vehicle</p>
 
             <input
-              className="text-black"
-              placeholder="Owner Name"
-              value={form.ownerName}
-              onChange={e =>
-                setForm({
-                  ...form,
-                  ownerName: e.target.value
-                })
-              }
-            />
+            className="text-black"
+            placeholder="👤 Owner Name *"
+            value={form.ownerName}
+            onChange={e =>
+              setForm({
+                ...form,
+                ownerName: e.target.value
+              })
+            }
+          />
 
-            <input
-              className="text-black"
-              placeholder="Phone Number"
-              value={form.phoneNumber}
-              maxLength={10}
-              onChange={e =>
-                setForm({
-                  ...form,
-                  phoneNumber: e.target.value.replace(/\D/g, "")
-                })
-              }
-            />
+          <input
+            className="text-black"
+            placeholder="📱 Phone Number *"
+            value={form.phoneNumber}
+            maxLength={10}
+            onChange={e =>
+              setForm({
+                ...form,
+                phoneNumber: e.target.value.replace(/\D/g, "")
+              })
+            }
+          />
 
-            <input
-              className="text-black"
-              placeholder="Emergency Contact Name"
-              value={form.emergencyName}
-              onChange={e =>
-                setForm({
-                  ...form,
-                  emergencyName: e.target.value
-                })
-              }
-            />
+          <input
+            className="text-black"
+            placeholder="👨 Emergency Contact Name (Optional)"
+            value={form.emergencyName}
+            onChange={e =>
+              setForm({
+                ...form,
+                emergencyName: e.target.value
+              })
+            }
+          />
 
-            <input
-              className="text-black"
-              placeholder="Emergency Contact Number"
-              value={form.emergencyPhone}
-              maxLength={10}
-              onChange={e =>
-                setForm({
-                  ...form,
-                  emergencyPhone: e.target.value.replace(/\D/g, "")
-                })
-              }
-            />
+          <input
+            className="text-black"
+            placeholder="📞 Emergency Contact Number (Optional)"
+            value={form.emergencyPhone}
+            maxLength={10}
+            onChange={e =>
+              setForm({
+                ...form,
+                emergencyPhone: e.target.value.replace(/\D/g, "")
+              })
+            }
+          />
 
-            <input
-              className="text-black"
-              placeholder="Vehicle Number"
-              value={form.vehicleNumber}
-              onChange={e =>
-                setForm({
-                  ...form,
-                  vehicleNumber: e.target.value.toUpperCase()
-                })
-              }
-            />
+          <input
+            className="text-black"
+            placeholder="🚘 Vehicle Number *"
+            value={form.vehicleNumber}
+            onChange={e =>
+              setForm({
+                ...form,
+                vehicleNumber: e.target.value.toUpperCase()
+              })
+            }
+          />
 
-            <input
-              className="text-black"
-              placeholder="Address"
-              value={form.address}
-              onChange={e =>
-                setForm({
-                  ...form,
-                  address: e.target.value
-                })
-              }
-            />
+          <input
+            className="text-black"
+            placeholder="📍 Address *"
+            value={form.address}
+            onChange={e =>
+              setForm({
+                ...form,
+                address: e.target.value
+              })
+            }
+          />
 
             <button onClick={submit}>
               Generate & Download Tag

@@ -95,8 +95,6 @@ console.log("Loaded code:", code);
   if (
   !data.name ||
   !data.phone ||
-  !data.emergencyName ||
-  !data.emergencyPhone ||
   !data.address ||
   !data.vehicleNumber
 ) {
@@ -199,25 +197,27 @@ console.log("Loaded code:", code);
             <div className="buttons">
 
             <button
-              style={{ backgroundColor: "white", color: "blue" }}
-              onClick={callNow}
-            >
-              📞 Call Owner
-            </button>
+                style={{ backgroundColor: "white", color: "blue" }}
+                onClick={callNow}
+              >
+                📞 Call Owner
+              </button>
 
-            <button
-              style={{ backgroundColor: "#ff9800", color: "white" }}
-              onClick={callEmergency}
-            >
-              🚨 Emergency Contact
-            </button>
+              {vehicle.emergencyPhone && vehicle.emergencyPhone.trim() !== "" && (
+                <button
+                  style={{ backgroundColor: "#ff9800", color: "white" }}
+                  onClick={callEmergency}
+                >
+                  🚨 Emergency Contact
+                </button>
+              )}
 
-            <button
-              style={{ backgroundColor: "green" }}
-              onClick={whatsapp}
-            >
-              💬 WhatsApp
-            </button>
+              <button
+                style={{ backgroundColor: "green" }}
+                onClick={whatsapp}
+              >
+                💬 WhatsApp
+              </button>
 
           </div>
 
@@ -234,57 +234,73 @@ console.log("Loaded code:", code);
               <div className="order-form">
 
                 <input
-                  className="text-black"
-                  placeholder="Your Name"
-                  value={form.name}
-                  onChange={e => setForm({ ...form, name: e.target.value })}
-                />
+                className="text-black"
+                placeholder="👤 Full Name *"
+                value={form.name}
+                onChange={e => setForm({ ...form, name: e.target.value })}
+              />
 
-                <input
-                  className="text-black"
-                  placeholder="Phone Number"
-                  value={form.phone}
-                  onChange={e => setForm({ ...form, phone: e.target.value.replace(/\D/g,"") })}maxLength={10}
-                />
+              <input
+                className="text-black"
+                placeholder="📱 Phone Number *"
+                value={form.phone}
+                maxLength={10}
+                onChange={e =>
+                  setForm({
+                    ...form,
+                    phone: e.target.value.replace(/\D/g, "")
+                  })
+                }
+              />
 
-                <input
-                  className="text-black"
-                  placeholder="Emergency Contact Name"
-                  value={form.emergencyName}
-                  onChange={e =>
-                    setForm({
-                      ...form,
-                      emergencyName: e.target.value
-                    })
-                  }
-                />
+              <input
+                className="text-black"
+                placeholder="👨 Emergency Contact Name (Optional)"
+                value={form.emergencyName}
+                onChange={e =>
+                  setForm({
+                    ...form,
+                    emergencyName: e.target.value
+                  })
+                }
+              />
 
-                <input
-                  className="text-black"
-                  placeholder="Emergency Contact Number"
-                  value={form.emergencyPhone}
-                  maxLength={10}
-                  onChange={e =>
-                    setForm({
-                      ...form,
-                      emergencyPhone: e.target.value.replace(/\D/g, "")
-                    })
-                  }
-                />
+              <input
+                className="text-black"
+                placeholder="📞 Emergency Contact Number (Optional)"
+                value={form.emergencyPhone}
+                maxLength={10}
+                onChange={e =>
+                  setForm({
+                    ...form,
+                    emergencyPhone: e.target.value.replace(/\D/g, "")
+                  })
+                }
+              />
 
-                <textarea
-                  className="text-black"
-                  placeholder="Delivery Address"
-                  value={form.address}
-                  onChange={e => setForm({ ...form, address: e.target.value })}
-                />
+              <textarea
+                className="text-black"
+                placeholder="📍 Delivery Address *"
+                value={form.address}
+                onChange={e =>
+                  setForm({
+                    ...form,
+                    address: e.target.value
+                  })
+                }
+              />
 
-                <input
-                  className="text-black"
-                  placeholder="Vehicle Number"
-                  value={form.vehicleNumber}
-                  onChange={e => setForm({ ...form, vehicleNumber: e.target.value.toUpperCase() })}
-                />
+              <input
+                className="text-black"
+                placeholder="🚘 Vehicle Number *"
+                value={form.vehicleNumber}
+                onChange={e =>
+                  setForm({
+                    ...form,
+                    vehicleNumber: e.target.value.toUpperCase()
+                  })
+                }
+              />
 
                 <button style={{ color: "black" }} onClick={submitOrder}>
                   Submit Order
