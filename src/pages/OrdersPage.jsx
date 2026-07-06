@@ -160,6 +160,8 @@ function OrdersPage() {
     ...editingOrder,
     name: editingOrder.name.trim(),
     phone: editingOrder.phone.trim(),
+    emergencyName: editingOrder.emergencyName.trim(),
+    emergencyPhone: editingOrder.emergencyPhone.trim(),
     vehicleNumber: editingOrder.vehicleNumber.trim().toUpperCase(),
     address: editingOrder.address.trim()
   };
@@ -215,6 +217,8 @@ function OrdersPage() {
               <th>Phone</th>
               <th>Vehicle</th>
               <th>Address</th>
+              <th>Emergency Name</th> 
+              <th>Emergency Phone</th>
               <th>Status</th>
               <th>Action</th>
               <th>Generate QR</th>
@@ -230,6 +234,8 @@ function OrdersPage() {
                 <td>{o.phone}</td>
                 <td>{o.vehicleNumber}</td>
                 <td>{o.address}</td>
+                <td>{o.emergencyName}</td>
+                <td>{o.emergencyPhone}</td>
 
                 <td>
                   <span className={`status ${o.status}`}>
@@ -303,6 +309,29 @@ function OrdersPage() {
                 value={editingOrder.phone}
                 onChange={e =>
                   setEditingOrder({ ...editingOrder, phone: e.target.value.replace(/\D/g,"") })
+                }
+              />
+
+              <input
+                value={editingOrder.emergencyName || ""}
+                placeholder="Emergency Contact Name"
+                onChange={e =>
+                  setEditingOrder({
+                    ...editingOrder,
+                    emergencyName: e.target.value
+                  })
+                }
+              />
+
+              <input
+                value={editingOrder.emergencyPhone || ""}
+                placeholder="Emergency Contact Number"
+                maxLength={10}
+                onChange={e =>
+                  setEditingOrder({
+                    ...editingOrder,
+                    emergencyPhone: e.target.value.replace(/\D/g, "")
+                  })
                 }
               />
 

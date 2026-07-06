@@ -124,6 +124,8 @@ function CustomersPage() {
     ...editingCustomer,
     ownerName: editingCustomer.ownerName.trim(),
     phoneNumber: editingCustomer.phoneNumber.trim(),
+    emergencyName: editingCustomer.emergencyName.trim(),
+    emergencyPhone: editingCustomer.emergencyPhone.trim(),
     vehicleNumber: editingCustomer.vehicleNumber.trim().toUpperCase(),
     address: editingCustomer.address.trim()
   };
@@ -179,6 +181,8 @@ function CustomersPage() {
               <th>Phone</th>
               <th>Vehicle</th>
               <th>Address</th>
+              <th>Emergency Name</th>
+              <th>Emergency Phone</th>
               <th>QR</th>
               <th>Action</th>
             </tr>
@@ -192,6 +196,8 @@ function CustomersPage() {
                 <td>{c.phoneNumber}</td>
                 <td>{c.vehicleNumber}</td>
                 <td>{c.address}</td>
+                <td>{c.emergencyName}</td>
+                <td>{c.emergencyPhone}</td>
 
                 <td>
                   <button
@@ -244,6 +250,29 @@ function CustomersPage() {
                   setEditingCustomer({ ...editingCustomer, phoneNumber: e.target.value.replace(/\D/g,"") })
                 }
                 maxLength={10}
+              />
+
+              <input
+                value={editingCustomer.emergencyName || ""}
+                placeholder="Emergency Contact Name"
+                onChange={e =>
+                  setEditingCustomer({
+                    ...editingCustomer,
+                    emergencyName: e.target.value
+                  })
+                }
+              />
+
+              <input
+                value={editingCustomer.emergencyPhone || ""}
+                placeholder="Emergency Contact Number"
+                maxLength={10}
+                onChange={e =>
+                  setEditingCustomer({
+                    ...editingCustomer,
+                    emergencyPhone: e.target.value.replace(/\D/g, "")
+                  })
+                }
               />
 
               <input

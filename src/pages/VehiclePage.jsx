@@ -15,6 +15,8 @@ function VehiclePage() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    emergencyName: "",
+    emergencyPhone: "",
     address: "",
     vehicleNumber: ""
   });
@@ -63,6 +65,14 @@ console.log("Loaded code:", code);
     }, 800);
   };
 
+  const callEmergency = () => {
+  setMessage("📞 Calling Emergency Contact...");
+
+  setTimeout(() => {
+    window.location.href = `${api.defaults.baseURL}/call-emergency/${code}`;
+  }, 800);
+};
+
   const whatsapp = () => {
     setMessage("Opening WhatsApp...");
     setTimeout(() => {
@@ -75,17 +85,21 @@ console.log("Loaded code:", code);
   const data = {
     name: form.name.trim(),
     phone: form.phone.trim(),
+    emergencyName: form.emergencyName.trim(),
+    emergencyPhone: form.emergencyPhone.trim(),
     address: form.address.trim(),
     vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
     vehicleCode: code
   };
 
   if (
-    !data.name ||
-    !data.phone ||
-    !data.address ||
-    !data.vehicleNumber
-  ) {
+  !data.name ||
+  !data.phone ||
+  !data.emergencyName ||
+  !data.emergencyPhone ||
+  !data.address ||
+  !data.vehicleNumber
+) {
     setError("Please fill all fields");
     setTimeout(() => setError(""), 2500);
     return;
@@ -98,11 +112,13 @@ console.log("Loaded code:", code);
     setMessage("✅ Order placed successfully!");
 
     setForm({
-      name: "",
-      phone: "",
-      address: "",
-      vehicleNumber: ""
-    });
+    name: "",
+    phone: "",
+    emergencyName: "",
+    emergencyPhone: "",
+    address: "",
+    vehicleNumber: ""
+  });
 
     setShowForm(false);
 
@@ -181,13 +197,29 @@ console.log("Loaded code:", code);
             <h3>👇 Contact The Owner 👍</h3>
 
             <div className="buttons">
-              <button style={{ backgroundColor: "white", color: "blue" }} onClick={callNow}>
-                📞 Call Now
-              </button>
-              <button style={{ backgroundColor: "green" }} onClick={whatsapp}>
-                💬 WhatsApp
-              </button>
-            </div>
+
+            <button
+              style={{ backgroundColor: "white", color: "blue" }}
+              onClick={callNow}
+            >
+              📞 Call Owner
+            </button>
+
+            <button
+              style={{ backgroundColor: "#ff9800", color: "white" }}
+              onClick={callEmergency}
+            >
+              🚨 Emergency Contact
+            </button>
+
+            <button
+              style={{ backgroundColor: "green" }}
+              onClick={whatsapp}
+            >
+              💬 WhatsApp
+            </button>
+
+          </div>
 
             <hr />
 
@@ -213,6 +245,31 @@ console.log("Loaded code:", code);
                   placeholder="Phone Number"
                   value={form.phone}
                   onChange={e => setForm({ ...form, phone: e.target.value.replace(/\D/g,"") })}maxLength={10}
+                />
+
+                <input
+                  className="text-black"
+                  placeholder="Emergency Contact Name"
+                  value={form.emergencyName}
+                  onChange={e =>
+                    setForm({
+                      ...form,
+                      emergencyName: e.target.value
+                    })
+                  }
+                />
+
+                <input
+                  className="text-black"
+                  placeholder="Emergency Contact Number"
+                  value={form.emergencyPhone}
+                  maxLength={10}
+                  onChange={e =>
+                    setForm({
+                      ...form,
+                      emergencyPhone: e.target.value.replace(/\D/g, "")
+                    })
+                  }
                 />
 
                 <textarea

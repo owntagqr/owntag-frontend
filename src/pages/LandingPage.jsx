@@ -24,6 +24,8 @@ export default function LandingPage() {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    emergencyName: "",
+    emergencyPhone: "",
     vehicleNumber: "",
     address: ""
   });
@@ -33,6 +35,8 @@ export default function LandingPage() {
     if (
       !form.name.trim() ||
       !form.phone.trim() ||
+      !form.emergencyName.trim() ||
+      !form.emergencyPhone.trim() ||
       !form.vehicleNumber.trim() ||
       !form.address.trim()
     ) {
@@ -50,6 +54,8 @@ export default function LandingPage() {
       setForm({
         name: "",
         phone: "",
+        emergencyName: "",
+        emergencyPhone: "",
         vehicleNumber: "",
         address: ""
       });
@@ -61,35 +67,44 @@ export default function LandingPage() {
 
     } catch (err) {
 
-      let message = "Unable to place order.";
+  let message = "Unable to place order.";
 
-      const data = err.response?.data;
+  const data = err.response?.data;
 
-      if (typeof data === "string") {
-        message = data;
-      }
-      else if (data?.message) {
-        message = data.message;
-      }
-      else if (data?.errors) {
-        message = Object.values(data.errors).join("\n");
-      }
-      else if (data?.phone) {
-        message = data.phone;
-      }
-      else if (data?.vehicleNumber) {
-        message = data.vehicleNumber;
-      }
-      else if (data?.address) {
-        message = data.address;
-      }
+  if (typeof data === "string") {
+    message = data;
+  }
+  else if (data?.message) {
+    message = data.message;
+  }
+  else if (data?.errors) {
+    message = Object.values(data.errors).join("\n");
+  }
+  else if (data?.name) {
+    message = data.name;
+  }
+  else if (data?.phone) {
+    message = data.phone;
+  }
+  else if (data?.emergencyName) {
+    message = data.emergencyName;
+  }
+  else if (data?.emergencyPhone) {
+    message = data.emergencyPhone;
+  }
+  else if (data?.vehicleNumber) {
+    message = data.vehicleNumber;
+  }
+  else if (data?.address) {
+    message = data.address;
+  }
 
-      setError(message);
+  setError(message);
 
-      setTimeout(() => {
-        setError("");
-      }, 3000);
-    }
+  setTimeout(() => {
+    setError("");
+  }, 3000);
+  }
   };
 
   return (
@@ -156,6 +171,31 @@ export default function LandingPage() {
                   setForm({
                     ...form,
                     phone: e.target.value.replace(/\D/g, "")
+                  })
+                }
+              />
+
+              <input
+                className="w-full p-3 border rounded-lg"
+                placeholder="👨 Emergency Contact Name"
+                value={form.emergencyName}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    emergencyName: e.target.value
+                  })
+                }
+              />
+
+              <input
+                className="w-full p-3 border rounded-lg"
+                placeholder="📞 Emergency Contact Number"
+                value={form.emergencyPhone}
+                maxLength={10}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    emergencyPhone: e.target.value.replace(/\D/g, "")
                   })
                 }
               />

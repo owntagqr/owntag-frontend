@@ -9,6 +9,8 @@ function AdminPage() {
   const [form, setForm] = useState({
     ownerName: "",
     phoneNumber: "",
+    emergencyName: "",
+    emergencyPhone: "",
     vehicleNumber: "",
     address: ""
   });
@@ -53,11 +55,13 @@ function AdminPage() {
   const submit = async () => {
 
   const data = {
-    ownerName: form.ownerName.trim(),
-    phoneNumber: form.phoneNumber.trim(),
-    vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
-    address: form.address.trim()
-  };
+  ownerName: form.ownerName.trim(),
+  phoneNumber: form.phoneNumber.trim(),
+  emergencyName: form.emergencyName.trim(),
+  emergencyPhone: form.emergencyPhone.trim(),
+  vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
+  address: form.address.trim()
+};
 
   // Owner Name
   if (data.ownerName.length < 3) {
@@ -69,6 +73,19 @@ function AdminPage() {
   // Phone Number
   if (!/^[6-9]\d{9}$/.test(data.phoneNumber)) {
     setError("Enter a valid 10-digit Indian mobile number.");
+    setTimeout(() => setError(""), 3000);
+    return;
+  }
+  // Emergency Contact Name
+  if (data.emergencyName.length < 3) {
+    setError("Emergency contact name must contain at least 3 characters.");
+    setTimeout(() => setError(""), 3000);
+    return;
+  }
+
+  // Emergency Contact Number
+  if (!/^[6-9]\d{9}$/.test(data.emergencyPhone)) {
+    setError("Enter a valid 10-digit emergency contact number.");
     setTimeout(() => setError(""), 3000);
     return;
   }
@@ -102,6 +119,8 @@ function AdminPage() {
     setForm({
       ownerName: "",
       phoneNumber: "",
+      emergencyName: "",
+      emergencyPhone: "",
       vehicleNumber: "",
       address: ""
     });
@@ -177,6 +196,31 @@ function AdminPage() {
                 setForm({
                   ...form,
                   phoneNumber: e.target.value.replace(/\D/g, "")
+                })
+              }
+            />
+
+            <input
+              className="text-black"
+              placeholder="Emergency Contact Name"
+              value={form.emergencyName}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  emergencyName: e.target.value
+                })
+              }
+            />
+
+            <input
+              className="text-black"
+              placeholder="Emergency Contact Number"
+              value={form.emergencyPhone}
+              maxLength={10}
+              onChange={e =>
+                setForm({
+                  ...form,
+                  emergencyPhone: e.target.value.replace(/\D/g, "")
                 })
               }
             />
