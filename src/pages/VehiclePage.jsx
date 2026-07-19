@@ -317,4 +317,3 @@ console.log("Loaded code:", code);
 }
 
 export default VehiclePage;
-

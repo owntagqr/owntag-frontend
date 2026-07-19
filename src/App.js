@@ -26,7 +26,10 @@ function App() {
         <Route path="/track" element={<TrackPage />} />
 
         {/* 🚗 Public QR page (FIXED) */}
-        <Route path="/v/:code" element={<VehiclePageWrapper />} />
+        <Route
+    path="/vehicle/:code"
+    element={<VehiclePageWrapper />}
+/>
 
         {/* 🧾 Orders */}
         <Route path="/orders" element={<OrdersPage />} />
@@ -50,4 +53,3 @@ function App() {
 }
 
 export default App;
-

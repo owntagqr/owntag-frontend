@@ -1,325 +1,332 @@
-import { useState, useEffect, useRef } from "react";
-import api from "../services/api";
-import "../css/AdminPage.css";
-// import { toPng } from "html-to-image";
-import { useNavigate } from "react-router-dom";
+// import { useState, useEffect, useRef } from "react";
+// import api from "../services/api";
+// import "../css/AdminPage.css";
+// // import { toPng } from "html-to-image";
+// import { useNavigate } from "react-router-dom";
 
-function AdminPage() {
+// function AdminPage() {
 
-  const [form, setForm] = useState({
-    ownerName: "",
-    phoneNumber: "",
-    emergencyName: "",
-    emergencyPhone: "",
-    vehicleNumber: "",
-    address: ""
-  });
+//   const [form, setForm] = useState({
+//     ownerName: "",
+//     phoneNumber: "",
+//     emergencyName: "",
+//     emergencyPhone: "",
+//     vehicleNumber: "",
+//     address: ""
+//   });
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+//   const [message, setMessage] = useState("");
+//   const [error, setError] = useState("");
 
-  const tagRef = useRef();
-  const navigate = useNavigate();
+//   const tagRef = useRef();
+//   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("admin") === "true");
-  }, []);
+//   useEffect(() => {
+//     setIsLoggedIn(localStorage.getItem("admin") === "true");
+//   }, []);
 
-  // ✅ PDF DOWNLOAD
-  const downloadPDF = async (code, name, phone) => {
-  try {
-    const safeName = (name || "customer").replace(/[^a-zA-Z0-9]/g, "_");
-    const first5 = (phone || "00000").replace(/\D/g, "").substring(0, 5);
+//   // ✅ PDF DOWNLOAD
+//   const downloadPDF = async (code, name, phone) => {
+//   try {
+//     const safeName = (name || "customer").replace(/[^a-zA-Z0-9]/g, "_");
+//     const first5 = (phone || "00000").replace(/\D/g, "").substring(0, 5);
 
-    const res = await api.get(`/tag-pdf/${code}`, {
-      responseType: "blob"   // 🔥 IMPORTANT
-    });
+//     const res = await api.get(`/tag-pdf/${code}`, {
+//       responseType: "blob"   // 🔥 IMPORTANT
+//     });
 
-    const url = window.URL.createObjectURL(new Blob([res.data]));
+//     const url = window.URL.createObjectURL(new Blob([res.data]));
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${safeName}_${first5}.pdf`; // ✅ FINAL NAME
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+//     const link = document.createElement("a");
+//     link.href = url;
+//     link.download = `${safeName}_${first5}.pdf`; // ✅ FINAL NAME
+//     document.body.appendChild(link);
+//     link.click();
+//     link.remove();
 
-  } catch {
-    console.error("PDF download failed");
-  }
-};
+//   } catch {
+//     console.error("PDF download failed");
+//   }
+// };
 
 
-  // ✅ SUBMIT
-  const submit = async () => {
+//   // ✅ SUBMIT
+//   const submit = async () => {
 
-  const data = {
-  ownerName: form.ownerName.trim(),
-  phoneNumber: form.phoneNumber.trim(),
-  emergencyName: form.emergencyName.trim(),
-  emergencyPhone: form.emergencyPhone.trim(),
-  vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
-  address: form.address.trim()
-};
+//   const data = {
+//   ownerName: form.ownerName.trim(),
+//   phoneNumber: form.phoneNumber.trim(),
+//   emergencyName: form.emergencyName.trim(),
+//   emergencyPhone: form.emergencyPhone.trim(),
+//   vehicleNumber: form.vehicleNumber.trim().toUpperCase(),
+//   address: form.address.trim()
+// };
 
-  // Owner Name
-  if (data.ownerName.length < 3) {
-    setError("Owner name must contain at least 3 characters.");
-    setTimeout(() => setError(""), 3000);
-    return;
-  }
+//   // Owner Name
+//   if (data.ownerName.length < 3) {
+//     setError("Owner name must contain at least 3 characters.");
+//     setTimeout(() => setError(""), 3000);
+//     return;
+//   }
 
-  // Phone Number
-  if (!/^[6-9]\d{9}$/.test(data.phoneNumber)) {
-    setError("Enter a valid 10-digit Indian mobile number.");
-    setTimeout(() => setError(""), 3000);
-    return;
-  }
-  // Emergency Contact Name
-  if (
-    form.emergencyName &&
-    form.emergencyName.trim().length < 3
-) {
-    setError("Emergency Contact Name must be at least 3 characters.");
-    return;
-}
+//   // Phone Number
+//   if (!/^[6-9]\d{9}$/.test(data.phoneNumber)) {
+//     setError("Enter a valid 10-digit Indian mobile number.");
+//     setTimeout(() => setError(""), 3000);
+//     return;
+//   }
+//   // Emergency Contact Name
+//   if (
+//     form.emergencyName &&
+//     form.emergencyName.trim().length < 3
+// ) {
+//     setError("Emergency Contact Name must be at least 3 characters.");
+//     return;
+// }
 
-  // Emergency Contact Number
-  if (
-    form.emergencyPhone &&
-    !/^[6-9]\d{9}$/.test(form.emergencyPhone)
-) {
-    setError("Enter a valid Emergency Contact Number.");
-    return;
-}
+//   // Emergency Contact Number
+//   if (
+//     form.emergencyPhone &&
+//     !/^[6-9]\d{9}$/.test(form.emergencyPhone)
+// ) {
+//     setError("Enter a valid Emergency Contact Number.");
+//     return;
+// }
 
-  // Vehicle Number
-  if (!/^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$/.test(data.vehicleNumber)) {
-    setError("Enter a valid vehicle number (Example: AP39AB1234)");
-    setTimeout(() => setError(""), 3000);
-    return;
-  }
+//   // Vehicle Number
+//   if (!/^[A-Z]{2}[0-9]{2}[A-Z]{1,2}[0-9]{4}$/.test(data.vehicleNumber)) {
+//     setError("Enter a valid vehicle number (Example: AP39AB1234)");
+//     setTimeout(() => setError(""), 3000);
+//     return;
+//   }
 
-  // Address
-  if (data.address.length < 10) {
-    setError("Address must be at least 10 characters.");
-    setTimeout(() => setError(""), 3000);
-    return;
-  }
+//   // Address
+//   if (data.address.length < 10) {
+//     setError("Address must be at least 10 characters.");
+//     setTimeout(() => setError(""), 3000);
+//     return;
+//   }
 
-  try {
+//   try {
 
-    const res = await api.post("/add", data);
+//     const res = await api.post("/add", data);
 
-    downloadPDF(
-      res.data.uniqueCode,
-      data.ownerName,
-      data.phoneNumber
-    );
+//     downloadPDF(
+//       res.data.uniqueCode,
+//       data.ownerName,
+//       data.phoneNumber
+//     );
 
-    setMessage("✅ QR Tag Generated!");
+//     setMessage("✅ QR Tag Generated!");
 
-    setForm({
-      ownerName: "",
-      phoneNumber: "",
-      emergencyName: "",
-      emergencyPhone: "",
-      vehicleNumber: "",
-      address: ""
-    });
+//     setForm({
+//       ownerName: "",
+//       phoneNumber: "",
+//       emergencyName: "",
+//       emergencyPhone: "",
+//       vehicleNumber: "",
+//       address: ""
+//     });
 
-    setTimeout(() => {
-      setMessage("");
-    }, 2500);
+//     setTimeout(() => {
+//       setMessage("");
+//     }, 2500);
 
-  } catch (err) {
+//   } catch (err) {
 
-    let message = "Unable to generate QR.";
+//     let message = "Unable to generate QR.";
 
-    const response = err.response?.data;
+//     const response = err.response?.data;
 
-    if (typeof response === "string") {
-      message = response;
-    } else if (response?.message) {
-      message = response.message;
-    } else if (response?.errors) {
-      message = Object.values(response.errors).join("\n");
-    }
+//     if (typeof response === "string") {
+//       message = response;
+//     } else if (response?.message) {
+//       message = response.message;
+//     } else if (response?.errors) {
+//       message = Object.values(response.errors).join("\n");
+//     }
 
-    setError(message);
+//     setError(message);
 
-    setTimeout(() => {
-      setError("");
-    }, 3000);
-  }
-};
+//     setTimeout(() => {
+//       setError("");
+//     }, 3000);
+//   }
+// };
 
-  return (
-    <>
-      {/* SUCCESS */}
-      {message && (
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-          {message}
-        </div>
-      )}
+//   return (
+//     <>
+//       {/* SUCCESS */}
+//       {message && (
+//         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+//           {message}
+//         </div>
+//       )}
 
-      {/* ERROR */}
-      {error && (
-        <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-          {error}
-        </div>
-      )}
+//       {/* ERROR */}
+//       {error && (
+//         <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+//           {error}
+//         </div>
+//       )}
 
-      <div className="admin-bg">
-        <div className="admin-container">
+//       <div className="admin-bg">
+//         <div className="admin-container">
 
-          <div className="admin-card">
+//           <div className="admin-card">
 
-            <h2>🚗 OwnTag</h2>
-            <p className="subtitle">Create QR for new vehicle</p>
+//             <h2>🚗 OwnTag</h2>
+//             <p className="subtitle">Create QR for new vehicle</p>
 
-            <input
-            className="text-black"
-            placeholder="👤 Owner Name *"
-            value={form.ownerName}
-            onChange={e =>
-              setForm({
-                ...form,
-                ownerName: e.target.value
-              })
-            }
-          />
+//             <input
+//             className="text-black"
+//             placeholder="👤 Owner Name *"
+//             value={form.ownerName}
+//             onChange={e =>
+//               setForm({
+//                 ...form,
+//                 ownerName: e.target.value
+//               })
+//             }
+//           />
 
-          <input
-            className="text-black"
-            placeholder="📱 Phone Number *"
-            value={form.phoneNumber}
-            maxLength={10}
-            onChange={e =>
-              setForm({
-                ...form,
-                phoneNumber: e.target.value.replace(/\D/g, "")
-              })
-            }
-          />
+//           <input
+//             className="text-black"
+//             placeholder="📱 Phone Number *"
+//             value={form.phoneNumber}
+//             maxLength={10}
+//             onChange={e =>
+//               setForm({
+//                 ...form,
+//                 phoneNumber: e.target.value.replace(/\D/g, "")
+//               })
+//             }
+//           />
 
-          <input
-            className="text-black"
-            placeholder="👨 Emergency Contact Name (Optional)"
-            value={form.emergencyName}
-            onChange={e =>
-              setForm({
-                ...form,
-                emergencyName: e.target.value
-              })
-            }
-          />
+//           <input
+//             className="text-black"
+//             placeholder="👨 Emergency Contact Name (Optional)"
+//             value={form.emergencyName}
+//             onChange={e =>
+//               setForm({
+//                 ...form,
+//                 emergencyName: e.target.value
+//               })
+//             }
+//           />
 
-          <input
-            className="text-black"
-            placeholder="📞 Emergency Contact Number (Optional)"
-            value={form.emergencyPhone}
-            maxLength={10}
-            onChange={e =>
-              setForm({
-                ...form,
-                emergencyPhone: e.target.value.replace(/\D/g, "")
-              })
-            }
-          />
+//           <input
+//             className="text-black"
+//             placeholder="📞 Emergency Contact Number (Optional)"
+//             value={form.emergencyPhone}
+//             maxLength={10}
+//             onChange={e =>
+//               setForm({
+//                 ...form,
+//                 emergencyPhone: e.target.value.replace(/\D/g, "")
+//               })
+//             }
+//           />
 
-          <input
-            className="text-black"
-            placeholder="🚘 Vehicle Number *"
-            value={form.vehicleNumber}
-            onChange={e =>
-              setForm({
-                ...form,
-                vehicleNumber: e.target.value.toUpperCase()
-              })
-            }
-          />
+//           <input
+//             className="text-black"
+//             placeholder="🚘 Vehicle Number *"
+//             value={form.vehicleNumber}
+//             onChange={e =>
+//               setForm({
+//                 ...form,
+//                 vehicleNumber: e.target.value.toUpperCase()
+//               })
+//             }
+//           />
 
-          <input
-            className="text-black"
-            placeholder="📍 Address *"
-            value={form.address}
-            onChange={e =>
-              setForm({
-                ...form,
-                address: e.target.value
-              })
-            }
-          />
+//           <input
+//             className="text-black"
+//             placeholder="📍 Address *"
+//             value={form.address}
+//             onChange={e =>
+//               setForm({
+//                 ...form,
+//                 address: e.target.value
+//               })
+//             }
+//           />
 
-            <button onClick={submit}>
-              Generate & Download Tag
-            </button>
+//             <button onClick={submit}>
+//               Save Vehicle
+//             </button>
 
-            {!isLoggedIn && (
-              <button
-                className="login-btn"
-                onClick={() => navigate("/login")}
-              >
-                🔐 Admin Login
-              </button>
-            )}
+//             <button
+//             className="assign-btn"
+//             onClick={() => openAssignModal(savedVehicle)}
+//           >
+//             🏷️ Assign Tag
+//           </button>
 
-          </div>
+//             {!isLoggedIn && (
+//               <button
+//                 className="login-btn"
+//                 onClick={() => navigate("/login")}
+//               >
+//                 🔐 Admin Login
+//               </button>
+//             )}
 
-        </div>
-      </div>
+//           </div>
 
-      {/* 🔥 HIDDEN TAG TEMPLATE (FOR PNG ONLY) */}
-      <div style={{ position: "absolute", left: "-9999px" }}>
-        <div
-          ref={tagRef}
-          style={{
-            width: "748px",
-            height: "1661px",
-            position: "relative"
-          }}
-        >
+//         </div>
+//       </div>
 
-          <img
-            src="/tag.png"
-            alt="tag"
-            style={{ width: "100%", height: "100%" }}
-          />
+//       {/* 🔥 HIDDEN TAG TEMPLATE (FOR PNG ONLY) */}
+//       <div style={{ position: "absolute", left: "-9999px" }}>
+//         <div
+//           ref={tagRef}
+//           style={{
+//             width: "748px",
+//             height: "1661px",
+//             position: "relative"
+//           }}
+//         >
 
-          {/* ✅ PIXEL PERFECT QR */}
-          <div
-            style={{
-              position: "absolute",
-              top: "420px",
-              left: "430px",
-              width: "260px",
-              height: "260px",
-              backgroundColor: "#fff",
-              borderRadius: "30px",
-              border: "6px solid #ff7a00",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden"
-            }}
-          >
-            <img
-              id="qr-img"
-              src=""
-              alt="qr"
-              style={{
-                width: "200px",
-                height: "200px"
-              }}
-            />
-          </div>
+//           <img
+//             src="/tag.png"
+//             alt="tag"
+//             style={{ width: "100%", height: "100%" }}
+//           />
 
-        </div>
-      </div>
-    </>
-  );
-}
+//           {/* ✅ PIXEL PERFECT QR */}
+//           <div
+//             style={{
+//               position: "absolute",
+//               top: "420px",
+//               left: "430px",
+//               width: "260px",
+//               height: "260px",
+//               backgroundColor: "#fff",
+//               borderRadius: "30px",
+//               border: "6px solid #ff7a00",
+//               display: "flex",
+//               alignItems: "center",
+//               justifyContent: "center",
+//               overflow: "hidden"
+//             }}
+//           >
+//             <img
+//               id="qr-img"
+//               src=""
+//               alt="qr"
+//               style={{
+//                 width: "200px",
+//                 height: "200px"
+//               }}
+//             />
+//           </div>
 
-export default AdminPage; 
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default AdminPage; 

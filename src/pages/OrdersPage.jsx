@@ -15,6 +15,10 @@ function OrdersPage() {
   const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState(null);
 
+  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [availableTags, setAvailableTags] = useState([]);
+
   const tagRef = useRef();
 
   // ✅ LOAD ORDERS (OLD UI KEPT)
@@ -59,29 +63,57 @@ function OrdersPage() {
 }
   };
 
-  //PDF download
-  const downloadPDF = async (code, name, phone) => {
-  try {
-    const safeName = (name || "customer").replace(/[^a-zA-Z0-9]/g, "_");
-    const first5 = (phone || "00000").replace(/\D/g, "").substring(0, 5);
+  const openAssignTagModal = async (order) => {
 
-    const res = await api.get(`/tag-pdf/${code}`, {
-      responseType: "blob"   // 🔥 IMPORTANT
+    setSelectedOrder(order);
+
+    const res = await api.get("/tag-inventory/available");
+
+    setAvailableTags(res.data);
+
+    setShowAssignModal(true);
+};
+
+const assignTag = async (tagId) => {
+
+    await api.put("/tag-inventory/assign", {
+
+        orderId: selectedOrder.id,
+
+        tagId: tagId
+
     });
 
-    const url = window.URL.createObjectURL(new Blob([res.data]));
+    alert("Tag Assigned Successfully");
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${safeName}_${first5}.pdf`; // ✅ FINAL NAME
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+    setShowAssignModal(false);
 
-  } catch {
-    console.error("PDF download failed");
-  }
+    loadOrders();
 };
+
+  //PDF download
+//   const downloadPDF = async (code, name, phone) => {
+//   try {
+//     const safeName = (name || "customer").replace(/[^a-zA-Z0-9]/g, "_");
+//     const first5 = (phone || "00000").replace(/\D/g, "").substring(0, 5);
+
+//     const res = await api.get(`/tag-pdf/${code}`, {
+//       responseType: "blob"   // 🔥 IMPORTANT
+//     });
+
+//     const url = window.URL.createObjectURL(new Blob([res.data]));
+
+//     const link = document.createElement("a");
+//     link.href = url;
+//     link.download = `${safeName}_${first5}.pdf`; // ✅ FINAL NAME
+//     document.body.appendChild(link);
+//     link.click();
+//     link.remove();
+
+//   } catch {
+//     console.error("PDF download failed");
+//   }
+// };
 
   // ✅ NEW TAG DOWNLOAD (YOUR WORKING LOGIC)
   // const downloadTag = async (code, name, phone) => {
@@ -115,26 +147,26 @@ function OrdersPage() {
   // };
 
   // ✅ GENERATE QR + TAG (UPDATED)
-  const generateQR = async (o) => {
-    try {
-      const res = await api.post(`/from-order/${o.id}`);
+  // const generateQR = async (o) => {
+  //   try {
+  //     const res = await api.post(`/from-order/${o.id}`);
 
-      await downloadPDF(
-        res.data.uniqueCode,
-        o.name,
-        o.phone
-      );
+  //     await downloadPDF(
+  //       res.data.uniqueCode,
+  //       o.name,
+  //       o.phone
+  //     );
 
-      setMessage("✅ QR Generated & Customer Added!");
-      setTimeout(() => setMessage(""), 2500);
+  //     setMessage("✅ QR Generated & Customer Added!");
+  //     setTimeout(() => setMessage(""), 2500);
 
-      loadOrders();
+  //     loadOrders();
 
-    } catch {
-      setError("❌ Error generating QR");
-      setTimeout(() => setError(""), 2000);
-    }
-  };
+  //   } catch {
+  //     setError("❌ Error generating QR");
+  //     setTimeout(() => setError(""), 2000);
+  //   }
+  // };
 
   // 🗑️ DELETE ORDER (UNCHANGED)
   const deleteOrder = async () => {
@@ -221,7 +253,7 @@ function OrdersPage() {
               <th>Emergency Phone</th>
               <th>Status</th>
               <th>Action</th>
-              <th>Generate QR</th>
+              <th>Assign Tag</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -258,11 +290,11 @@ function OrdersPage() {
 
                 <td>
                   <button
-                    style={{ backgroundColor: "green" }}
-                    onClick={() => generateQR(o)}
-                  >
-                    ⚡ Generate QR
-                  </button>
+                    className="assign-btn"
+                    onClick={() => openAssignTagModal(o)}
+                >
+                    Assign Tag
+                </button>
                 </td>
 
                 <td>
@@ -387,8 +419,49 @@ function OrdersPage() {
 
         </div>
       </div>
+      {
+showAssignModal && (
+
+<div className="assign-modal">
+
+    <div className="assign-card">
+
+        <h3>Available Tags</h3>
+
+        {
+
+        availableTags.map(tag => (
+
+            <button
+
+                key={tag.tagId}
+
+                onClick={() => assignTag(tag.tagId)}
+
+            >
+
+                {tag.tagId}
+
+            </button>
+
+        ))
+
+        }
+
+        <button
+            onClick={() => setShowAssignModal(false)}
+        >
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+)}
     </>
   );
+  
 }
 
 export default OrdersPage;

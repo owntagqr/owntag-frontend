@@ -180,6 +180,8 @@ function CustomersPage() {
               <th>Name</th>
               <th>Phone</th>
               <th>Vehicle</th>
+              <th>Tag ID</th>
+              <th>Sheet</th>
               <th>Address</th>
               <th>Emergency Name</th>
               <th>Emergency Phone</th>
@@ -195,6 +197,8 @@ function CustomersPage() {
                 <td>{c.ownerName}</td>
                 <td>{c.phoneNumber}</td>
                 <td>{c.vehicleNumber}</td>
+                <td>{c.tagId}</td>
+                <td>{c.sheetCode}</td>
                 <td>{c.address}</td>
                 <td>{c.emergencyName}</td>
                 <td>{c.emergencyPhone}</td>

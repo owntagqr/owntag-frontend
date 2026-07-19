@@ -1,8 +1,9 @@
 import { useState } from "react";
 import OrdersPage from "./OrdersPage";
 import "../css/Dashboard.css";
+import TagsSheetsPage from "./TagsSheetsPage";
 import CustomersPage from "./CustomersPage";
-import AdminPage from "../pages/AdminPage"; // ✅ ADD THIS
+// import AdminPage from "../pages/AdminPage"; // ✅ ADD THIS
 import DashboardHome from "./DashBoardHome";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +20,9 @@ function Dashboard() {
         <h2>🚗 OwnTag</h2>
 
         <button onClick={() => setPage("orders")}>📦 Orders</button>
-        <button onClick={() => setPage("create")}>➕ Add Vehicle</button>
+        <button onClick={() => setPage("tags")}>
+        🏷️ Tags & Sheets
+        </button>
         <button onClick={() => setPage("customers")}>👥 Customers</button>
          <button
   className="logout-btn"
@@ -38,7 +41,7 @@ function Dashboard() {
       {/* Content */}
       <div className="content">
         {page === "orders" && <OrdersPage />}
-        {page === "create" && <AdminPage />}
+        {page === "tags" && <TagsSheetsPage />}
         {page === "customers" && <CustomersPage />}
         
        
