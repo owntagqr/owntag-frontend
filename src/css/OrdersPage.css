@@ -20,11 +20,41 @@
   background: #f1f1f1;
 }
 
-.status {
-  padding: 5px 10px;
-  border-radius: 8px;
-  color: white;
-  font-size: 12px;
+/* ================= STATUS ================= */
+
+.status{
+    display:inline-block;
+    min-width:110px;
+    padding:8px 16px;
+    border-radius:20px;
+    font-weight:700;
+    font-size:13px;
+    color:white;
+    text-align:center;
+}
+
+/* Pending */
+.status.PENDING{
+    background:#ff9800;
+}
+
+/* Processing */
+.status.PROCESSING{
+    background:#2196f3;
+}
+
+/* Completed */
+.status.COMPLETED{
+    background:#28a745 !important;
+    color:white !important;
+    padding:8px 16px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+/* Delivered */
+.status.DELIVERED{
+    background:#6f42c1;
 }
 
 .PENDING {
@@ -103,3 +133,4 @@ margin-top:10px;
 cursor:pointer;
 
 }
+
