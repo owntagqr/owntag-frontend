@@ -49,35 +49,41 @@ function TagsSheetsPage() {
   }, [search, sheets]);
 
   const loadSheets = async () => {
+  try {
+    console.log("Loading sheets...");
 
-    try {
+    const res = await api.get("/tag-sheet");
 
-      const res = await api.get("/tag-sheet");
-      console.log(res.data);
+    console.log("Status:", res.status);
+    console.log("Response:", res.data);
 
-      setSheets(res.data);
-      setFilteredSheets(res.data);
+    setSheets(res.data);
+    setFilteredSheets(res.data);
 
-      let totalVehicles = 0;
+    let totalVehicles = 0;
 
-res.data.forEach(sheet => {
-    totalVehicles += sheet.vehiclesCount;
-});
+    res.data.forEach(sheet => {
+      totalVehicles += sheet.vehiclesCount;
+    });
 
-setStats({
-    totalPairs: totalVehicles,
-    availablePairs: res.data.reduce((sum, s) => sum + s.availableTags, 0),
-    assignedPairs: res.data.reduce((sum, s) => sum + s.assignedTags, 0),
-    totalSheets: res.data.length
-});
+    setStats({
+      totalPairs: totalVehicles,
+      availablePairs: res.data.reduce(
+        (sum, s) => sum + (s.availableTags || 0),
+        0
+      ),
+      assignedPairs: res.data.reduce(
+        (sum, s) => sum + (s.assignedTags || 0),
+        0
+      ),
+      totalSheets: res.data.length
+    });
 
-      
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-    } catch (err) {
-      console.error(err);
-    }
-
-  };
 
   const openSheet = async (sheetCode) => {
 
@@ -96,10 +102,10 @@ setStats({
 };
 
 const downloadPdf = (sheetCode) => {
-  window.open(
-    `${BASE_URL}/api/tag-batch/sheet/${sheetCode}/pdf`,
-    "_blank"
-  );
+    window.open(
+        `${BASE_URL}/api/tag-sheet/${sheetCode}/pdf`,
+        "_blank"
+    );
 };
 
   const generateSheet = async () => {
@@ -113,7 +119,7 @@ const downloadPdf = (sheetCode) => {
 
     setShowGenerate(false);
 
-    loadSheets();
+    await loadSheets();
 
     alert("Sheet Generated Successfully");
 
@@ -122,6 +128,8 @@ const downloadPdf = (sheetCode) => {
   }
 
 };
+console.log("Sheets:", sheets);
+console.log("Filtered:", filteredSheets);
 
   return (
     <div className="tags-page">

@@ -31,6 +31,11 @@ function App() {
     element={<VehiclePageWrapper />}
 />
 
+ <Route
+          path="/v/:code"
+          element={<VehiclePage />}
+        />
+
         {/* 🧾 Orders */}
         <Route path="/orders" element={<OrdersPage />} />
 
